@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+motor # Async MongoDB driver
+pydantic
+python-dotenv  # For environment variables if needed
+pytest  # For testing
+httpx # For integration testing

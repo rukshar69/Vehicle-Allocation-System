@@ -5,6 +5,19 @@ from datetime import datetime
 from bson import ObjectId
 
 async def create_allocation(allocation: AllocationCreate):
+    """
+    Create a new allocation in the database.
+
+    Args:
+        allocation (AllocationCreate): The allocation data to be created,
+            which includes employee_id, vehicle_id, and date.
+
+    Raises:
+        HTTPException: If the vehicle is already allocated for the specified date.
+
+    Returns:
+        str: The ID of the newly created allocation.
+    """
     if await allocations_collection.find_one({
         "vehicle_id": allocation.vehicle_id,
         "date": allocation.date.isoformat()
@@ -47,6 +60,18 @@ async def update_allocation(allocation_id: str, update_data: AllocationUpdate):
     return True
 
 async def delete_allocation(allocation_id: str):
+    """
+    Delete an existing allocation from the database.
+
+    Args:
+        allocation_id (str): The ID of the allocation to be deleted.
+
+    Raises:
+        HTTPException: If the allocation is not found or if the allocation date is in the past.
+
+    Returns:
+        bool: True if the allocation was successfully deleted.
+    """
     allocation = await allocations_collection.find_one({"_id": ObjectId(allocation_id)})
     if not allocation:
         raise HTTPException(status_code=404, detail="Allocation not found.")
@@ -58,6 +83,15 @@ async def delete_allocation(allocation_id: str):
     return True
 
 async def get_all_allocations(filters):
+    """
+    Retrieve a list of allocations based on the provided filters.
+
+    Args:
+        filters (AllocationFilter): The filters to apply to the query.
+
+    Returns:
+        list[dict]: A list of allocations, each represented as a dictionary.
+    """
     query = {key: value for key, value in filters.dict(exclude_none=True).items()}
     allocations = await allocations_collection.find(query).to_list(1000)
     return allocations

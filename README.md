@@ -48,31 +48,7 @@ The project is fully **containerized with Docker**.
 
 ---
 
-## **How to Deploy the Project**
-### 1. **Production Deployment Steps**
-- Use **Gunicorn** instead of Uvicorn for production:
-  ```bash
-  CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
-  ```
-- Setup **MongoDB Atlas** for a managed MongoDB cluster.
-- Use **NGINX as a reverse proxy** to serve the application.
 
-
-### 2. **Environment Variables**
-Store sensitive information (e.g., database credentials) in a `.env` file and load them in your application.
-
-
----
-
-## **Maintenance Guidelines**
-- **Monitoring**: Use **Prometheus** and **Grafana** to monitor container performance and API response times.
-- **Logging**: Centralize logs using tools like **ELK (Elasticsearch, Logstash, Kibana)** stack.
-- **Backups**: Automate MongoDB backups using **mongodump**.
-- **Security**: 
-  - Implement **rate limiting** to prevent abuse.
-  - Regularly update Docker images and dependencies.
-
----
 
 ## **How to Stop the Application**
 To stop the running containers:
